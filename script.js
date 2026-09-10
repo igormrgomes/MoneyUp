@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
       menuToggle.setAttribute('aria-expanded', String(isOpen));
     });
 
-    // Fecha o menu ao clicar em um link
     navMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         header.classList.remove('nav-open');
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Fecha o menu ao redimensionar para desktop
     window.addEventListener('resize', () => {
       if (window.innerWidth > 860 && header.classList.contains('nav-open')) {
         header.classList.remove('nav-open');
@@ -37,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -----------------------------------------------------------
-     Scroll suave para links internos (fallback além do CSS)
+     Scroll suave para links internos
   ----------------------------------------------------------- */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -55,11 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* -----------------------------------------------------------
      Animação de entrada: barra de XP do herói
-     (momento único e orquestrado, não repetido em cada seção)
   ----------------------------------------------------------- */
   const xpFill = document.getElementById('xp-fill');
   const xpCount = document.getElementById('xp-count');
-  const XP_TARGET = 620; // valor exibido, de um total de 850
+  const XP_TARGET = 620;
   const XP_MAX = 850;
 
   function playXpAnimation() {
@@ -97,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* -----------------------------------------------------------
      Revelação suave ao rolar a página
-     (aplicada com moderação: títulos de seção e blocos-chave)
   ----------------------------------------------------------- */
   const revealTargets = document.querySelectorAll(
     '.section-head, .problem-item, .feature-card, .step, .compare-table, .solucao-visual'
@@ -140,8 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const leadSuccess = document.getElementById('lead-success');
 
   function isValidEmail(value) {
-    // Validação simples o suficiente para o front-end;
-    // a validação definitiva deve sempre ocorrer no backend.
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return pattern.test(value.trim());
   }
@@ -180,9 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       clearError();
 
-      // Aqui entraria a chamada real para salvar o lead
-      // (ex: fetch para uma API, Google Sheets, Mailchimp, etc.)
-      // Por enquanto, apenas simulamos o envio com sucesso:
       console.log('Lead capturado:', email);
 
       leadForm.hidden = true;
