@@ -130,4 +130,65 @@ document.addEventListener('DOMContentLoaded', () => {
   staggerGroup('.problem-list');
   staggerGroup('.steps');
 
+  /* -----------------------------------------------------------
+     Formulário de captura de e-mail (lead form)
+  ----------------------------------------------------------- */
+  const leadForm = document.getElementById('lead-form');
+  const leadField = leadForm ? leadForm.querySelector('.lead-field') : null;
+  const leadInput = document.getElementById('lead-email');
+  const leadError = document.getElementById('lead-error');
+  const leadSuccess = document.getElementById('lead-success');
+
+  function isValidEmail(value) {
+    // Validação simples o suficiente para o front-end;
+    // a validação definitiva deve sempre ocorrer no backend.
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(value.trim());
+  }
+
+  function showError(message) {
+    if (!leadField || !leadError) return;
+    leadField.classList.add('has-error');
+    leadError.textContent = message;
+  }
+
+  function clearError() {
+    if (!leadField || !leadError) return;
+    leadField.classList.remove('has-error');
+    leadError.textContent = '';
+  }
+
+  if (leadForm && leadInput) {
+    leadInput.addEventListener('input', clearError);
+
+    leadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const email = leadInput.value.trim();
+
+      if (email === '') {
+        showError('Digite seu e-mail para continuar.');
+        leadInput.focus();
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showError('Digite um e-mail válido (ex: nome@exemplo.com).');
+        leadInput.focus();
+        return;
+      }
+
+      clearError();
+
+      // Aqui entraria a chamada real para salvar o lead
+      // (ex: fetch para uma API, Google Sheets, Mailchimp, etc.)
+      // Por enquanto, apenas simulamos o envio com sucesso:
+      console.log('Lead capturado:', email);
+
+      leadForm.hidden = true;
+      if (leadSuccess) leadSuccess.hidden = false;
+    });
+  }
+
 });
+
