@@ -286,8 +286,29 @@
   <section class="cta-final" id="comecar">
     <div class="wrap cta-final-inner">
       <h2>Seu próximo nível financeiro começa com um cadastro.</h2>
-      <p>Leve menos de 2 minutos para criar sua conta e começar a primeira missão.</p>
-      <a href="#" class="btn btn-primary btn-large">Criar minha conta grátis</a>
+      <p>Deixe seu e-mail e seja avisado assim que a MoneyUp abrir sua lista de acesso antecipado.</p>
+
+      <form class="lead-form" id="lead-form" novalidate>
+        <div class="lead-field">
+          <label for="lead-email" class="visually-hidden">Seu e-mail</label>
+          <input
+            type="email"
+            id="lead-email"
+            name="email"
+            placeholder="seuemail@exemplo.com"
+            autocomplete="email"
+            required
+          >
+          <button type="submit" class="btn btn-primary btn-large">Quero entrar na lista</button>
+        </div>
+        <p class="lead-error" id="lead-error" role="alert" aria-live="polite"></p>
+      </form>
+
+      <p class="lead-success" id="lead-success" role="status" aria-live="polite" hidden>
+        Recebemos o seu e-mail! Em breve a MoneyUp chega até você. 🎉
+      </p>
+
+      <p class="lead-note">Sem spam. Você pode cancelar a inscrição quando quiser.</p>
     </div>
   </section>
 
