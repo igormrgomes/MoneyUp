@@ -129,56 +129,93 @@ document.addEventListener('DOMContentLoaded', () => {
   /* -----------------------------------------------------------
      Formulário de captura de e-mail (lead form)
   ----------------------------------------------------------- */
-  const leadForm = document.getElementById('lead-form');
-  const leadField = leadForm ? leadForm.querySelector('.lead-field') : null;
-  const leadInput = document.getElementById('lead-email');
-  const leadError = document.getElementById('lead-error');
-  const leadSuccess = document.getElementById('lead-success');
+const leadForm = document.getElementById('lead-form');
+const leadField = leadForm ? leadForm.querySelector('.lead-field') : null;
+const leadInput = document.getElementById('lead-email');
+const leadError = document.getElementById('lead-error');
 
-  function isValidEmail(value) {
+function isValidEmail(value) {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return pattern.test(value.trim());
-  }
+}
 
-  function showError(message) {
+function showError(message) {
     if (!leadField || !leadError) return;
+
     leadField.classList.add('has-error');
     leadError.textContent = message;
-  }
+}
 
-  function clearError() {
+function clearError() {
     if (!leadField || !leadError) return;
+
     leadField.classList.remove('has-error');
     leadError.textContent = '';
-  }
+}
 
-  if (leadForm && leadInput) {
+if (leadForm && leadInput) {
+
     leadInput.addEventListener('input', clearError);
 
-    leadForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    leadForm.addEventListener('submit', async function(e) {
 
-      const email = leadInput.value.trim();
+        e.preventDefault();
 
-      if (email === '') {
-        showError('Digite seu e-mail para continuar.');
-        leadInput.focus();
-        return;
-      }
+        const email = leadInput.value.trim();
 
-      if (!isValidEmail(email)) {
-        showError('Digite um e-mail válido (ex: nome@exemplo.com).');
-        leadInput.focus();
-        return;
-      }
+        if (email === '') {
+            showError('Digite seu e-mail para continuar.');
+            leadInput.focus();
+            return;
+        }
 
-      clearError();
+        if (!isValidEmail(email)) {
+            showError('Digite um e-mail válido.');
+            leadInput.focus();
+            return;
+        }
 
-      console.log('Lead capturado:', email);
+        clearError();
 
-      leadForm.hidden = true;
-      if (leadSuccess) leadSuccess.hidden = false;
+        const formData = new FormData();
+
+        formData.append('email', email);
+
+        try {
+
+            const response = await fetch(
+                'https://formspree.io/f/mbgdrqpe',
+                {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }
+            );
+
+            if (response.ok) {
+
+                leadForm.hidden = true;
+
+                const leadSuccess = document.getElementById('lead-success');
+
+                if (leadSuccess) {
+                    leadSuccess.hidden = false;
+                }
+
+            } else {
+
+                showError('Ocorreu um erro ao enviar. Tente novamente.');
+
+            }
+
+        } catch (error) {
+
+            showError('Não foi possível enviar. Verifique sua conexão.');
+
+        }
+
     });
-  }
-
-});
+}
+})
